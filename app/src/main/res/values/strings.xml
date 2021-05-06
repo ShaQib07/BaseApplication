@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BaseApplication</string>
+    <string name="hello_base">Hello Base!</string>
+    <string name="hello_primary_fragment">Hello primary fragment</string>
+    <string name="hello_secondary_fragment">Hello secondary fragment</string>
+    <string name="a_simple_dialog">A simple dialog</string>
+</resources>

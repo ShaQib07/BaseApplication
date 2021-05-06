@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/primaryFragment">
+
+    <fragment
+        android:id="@+id/primaryFragment"
+        android:name="com.shakib.baseapplication.presentation.PrimaryFragment"
+        android:label="Primary Fragment"
+        tools:layout="@layout/fragment_primary" />
+
+    <fragment
+        android:id="@+id/secondaryFragment"
+        android:name="com.shakib.baseapplication.presentation.SecondaryFragment"
+        android:label="fragment_secondary"
+        tools:layout="@layout/fragment_secondary">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <action
+        android:id="@+id/primaryToSecondary"
+        app:destination="@id/secondaryFragment" />
+
+    <dialog
+        android:id="@+id/simpleDialog"
+        android:name="com.shakib.baseapplication.presentation.SimpleDialog"
+        android:label="SimpleDialog">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="message"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
+
+    <action
+        android:id="@+id/secondaryToDialog"
+        app:destination="@id/simpleDialog" />
+
+</navigation>
