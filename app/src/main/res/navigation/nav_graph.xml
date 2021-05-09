@@ -9,12 +9,17 @@
         android:id="@+id/primaryFragment"
         android:name="com.shakib.baseapplication.presentation.PrimaryFragment"
         android:label="Primary Fragment"
-        tools:layout="@layout/fragment_primary" />
+        tools:layout="@layout/fragment_primary">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/secondaryFragment"
         android:name="com.shakib.baseapplication.presentation.SecondaryFragment"
-        android:label="fragment_secondary"
+        android:label="Secondary Fragment"
         tools:layout="@layout/fragment_secondary">
         <argument
             android:name="title"
@@ -22,9 +27,35 @@
             app:nullable="true" />
     </fragment>
 
+    <fragment
+        android:id="@+id/toolbarFragment"
+        android:name="com.shakib.baseapplication.presentation.ToolbarFragment"
+        android:label="Toolbar Fragment"
+        tools:layout="@layout/fragment_toolbar">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
     <action
-        android:id="@+id/primaryToSecondary"
-        app:destination="@id/secondaryFragment" />
+        android:id="@+id/primaryToToolbar"
+        app:destination="@id/toolbarFragment" />
+
+    <fragment
+        android:id="@+id/menuItemFragment"
+        android:name="com.shakib.baseapplication.presentation.MenuItemFragment"
+        android:label="Menu Item Fragment"
+        tools:layout="@layout/fragment_menu_item">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <action
+        android:id="@+id/primaryToMenuItem"
+        app:destination="@id/menuItemFragment" />
 
     <dialog
         android:id="@+id/simpleDialog"
@@ -41,7 +72,7 @@
     </dialog>
 
     <action
-        android:id="@+id/secondaryToDialog"
+        android:id="@+id/toolbarToDialog"
         app:destination="@id/simpleDialog" />
 
 </navigation>

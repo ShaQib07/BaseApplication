@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/primaryFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_icon_1"
+        android:title="@string/item_1"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/secondaryFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_icon_2"
+        android:title="@string/item_2"
+        app:showAsAction="ifRoom" />
+</menu>

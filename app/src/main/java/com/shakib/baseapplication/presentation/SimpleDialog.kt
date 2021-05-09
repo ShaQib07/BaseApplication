@@ -19,9 +19,8 @@ class SimpleDialog : BaseDialogFragment<DialogSimpleBinding>() {
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
         binding.tvTitle.text = title
-        binding.tvBody.text = message
         binding.btn.setOnClickListener {
-            viewModel.data.value = "PASSED DATA"
+            viewModel.data.value = binding.etBody.text.toString()
             dismissAllowingStateLoss()
         }
     }

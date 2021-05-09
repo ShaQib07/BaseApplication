@@ -3,5 +3,16 @@
     <string name="hello_base">Hello Base!</string>
     <string name="hello_primary_fragment">Hello primary fragment</string>
     <string name="hello_secondary_fragment">Hello secondary fragment</string>
+    <string name="hello_toolbar_fragment">Hello toolbar fragment</string>
     <string name="a_simple_dialog">A simple dialog</string>
+    <string name="menu_item_1">Menu Item 1</string>
+    <string name="menu_item_2">Menu Item 2</string>
+    <string name="menu_item_3">Menu Item 3</string>
+    <string name="settings">Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="item_1">Item 1</string>
+    <string name="item_2">Item 2</string>
+    <string name="write_something">Write Something</string>
+    <string name="submit">Submit</string>
 </resources>
