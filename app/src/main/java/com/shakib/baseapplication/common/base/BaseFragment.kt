@@ -5,10 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.shakib.baseapplication.presentation.navigator.DialogNavigator
+import com.shakib.baseapplication.presentation.navigator.ScreenNavigator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
+    @Inject protected lateinit var screenNavigator: ScreenNavigator
+    @Inject protected lateinit var dialogNavigator: DialogNavigator
     var title: String? = null
 
     companion object {

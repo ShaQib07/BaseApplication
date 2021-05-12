@@ -28,11 +28,10 @@ class ToolbarFragment : BaseFragment<FragmentToolbarBinding>() {
 
     private fun configureClickListeners() {
         binding.btn.setOnClickListener {
-            findNavController().navigate(
-                SimpleDialogDirections.toolbarToDialog(
-                    "Dialog Title",
-                    "Dialog Message"
-                )
+            dialogNavigator.toSimpleDialog(
+                findNavController(),
+                "Dialog Title",
+                "Dialog Message"
             )
         }
     }

@@ -7,19 +7,16 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.shakib.baseapplication.R
 import com.shakib.baseapplication.common.base.BaseActivity
 import com.shakib.baseapplication.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var navHostFragment: NavHostFragment
-    private lateinit var navController: NavController
 
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
@@ -36,11 +33,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
         appBarConfiguration =
-            AppBarConfiguration(setOf(R.id.primaryFragment, R.id.secondaryFragment), binding.drawerLayout)
+            AppBarConfiguration(
+                setOf(R.id.primaryFragment, R.id.secondaryFragment),
+                binding.drawerLayout
+            )
 
         // bind navigation component with navigation drawer
         binding.navigationView.setupWithNavController(navController)
@@ -72,27 +69,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.navigationDrawer.apply {
             menuOne.setOnClickListener {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
-                navController.navigate(
-                    MenuItemFragmentDirections.primaryToMenuItem(
-                        "From Menu Item 1"
-                    )
-                )
+                screenNavigator.toMenuFragment(navController, getString(R.string.from_menu_item_1))
             }
             menuTwo.setOnClickListener {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
-                navController.navigate(
-                    MenuItemFragmentDirections.primaryToMenuItem(
-                        "From Menu Item 2"
-                    )
-                )
+                screenNavigator.toMenuFragment(navController, getString(R.string.from_menu_item_2))
             }
             menuThree.setOnClickListener {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
-                navController.navigate(
-                    MenuItemFragmentDirections.primaryToMenuItem(
-                        "From Menu Item 3"
-                    )
-                )
+                screenNavigator.toMenuFragment(navController, getString(R.string.from_menu_item_3))
             }
         }
     }
@@ -107,11 +92,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.settings -> {
-                navController.navigate(
-                    ToolbarFragmentDirections.primaryToToolbar(
-                        getString(R.string.hello_toolbar_fragment)
-                    )
-                )
+                screenNavigator.toToolbarFragment(navController, getString(R.string.hello_toolbar_fragment))
                 true
             }
             else -> super.onOptionsItemSelected(item)
