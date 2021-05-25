@@ -8,7 +8,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.shakib.baseapplication.common.base.BaseFragment
 import com.shakib.baseapplication.databinding.FragmentToolbarBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ToolbarFragment : BaseFragment<FragmentToolbarBinding>() {
 
     private val viewModel: DialogViewModel by activityViewModels()

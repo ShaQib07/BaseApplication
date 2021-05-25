@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/primaryFragment"
-        android:name="com.shakib.baseapplication.presentation.PrimaryFragment"
+        android:name="com.shakib.baseapplication.presentation.primary.PrimaryFragment"
         android:label="Primary Fragment"
         tools:layout="@layout/fragment_primary">
         <argument
