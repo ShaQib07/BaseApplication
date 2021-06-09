@@ -75,4 +75,16 @@
         android:id="@+id/toolbarToDialog"
         app:destination="@id/simpleDialog" />
 
+    <dialog
+        android:id="@+id/progressDialog"
+        android:name="com.shakib.baseapplication.presentation.ProgressDialog"
+        android:label="ProgressDialog"/>
+
+    <action
+        android:id="@+id/showProgress"
+        app:destination="@id/progressDialog" />
+
+
+
+
 </navigation>

@@ -2,10 +2,12 @@ package com.shakib.baseapplication.common.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.shakib.baseapplication.common.extensions.printDebugLog
 import com.shakib.baseapplication.common.utils.SingleLiveEvent
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class BaseViewModel : ViewModel() {
+
+    protected val compositeDisposable = CompositeDisposable()
 
     sealed class Progress {
         object Show : Progress()
@@ -44,7 +46,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     override fun onCleared() {
-        printDebugLog("onCleared() called")
+        compositeDisposable.clear()
         onClear()
         super.onCleared()
     }

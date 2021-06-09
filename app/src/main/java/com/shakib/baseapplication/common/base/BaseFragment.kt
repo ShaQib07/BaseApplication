@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.shakib.baseapplication.presentation.navigator.DialogNavigator
 import com.shakib.baseapplication.presentation.navigator.ScreenNavigator
@@ -12,8 +13,11 @@ import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
-    @Inject protected lateinit var screenNavigator: ScreenNavigator
-    @Inject protected lateinit var dialogNavigator: DialogNavigator
+    @Inject
+    protected lateinit var screenNavigator: ScreenNavigator
+
+    @Inject
+    protected lateinit var dialogNavigator: DialogNavigator
     var title: String? = null
 
     companion object {
@@ -26,6 +30,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): VB
+
+    open fun getBaseViewModel(): BaseViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,13 +49,30 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     }
 
     open fun init(savedInstanceState: Bundle?) {
+        bindWithViewModel()
         configureViews(savedInstanceState)
     }
 
     open fun configureViews(savedInstanceState: Bundle?) {}
 
     open fun bindWithViewModel() {
-        // TODO - need to work with base ViewModel first, then come back here again
+        getBaseViewModel()?.let { viewModel ->
+            viewModel.progress.observe(viewLifecycleOwner, {
+                when (it) {
+                    is BaseViewModel.Progress.Show -> showProgress()
+                    is BaseViewModel.Progress.Hide -> hideProgress()
+                    else -> hideProgress()
+                }
+            })
+        }
+    }
+
+    private fun showProgress() {
+        dialogNavigator.showProgress(findNavController())
+    }
+
+    private fun hideProgress() {
+        findNavController().navigateUp()
     }
 
     private fun extractArguments() {
@@ -57,4 +80,5 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
             title = it.getString(TITLE)
         }
     }
+
 }

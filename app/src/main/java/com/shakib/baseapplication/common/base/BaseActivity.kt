@@ -16,8 +16,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private lateinit var navHostFragment: NavHostFragment
     protected lateinit var navController: NavController
-    @Inject protected lateinit var screenNavigator: ScreenNavigator
-    @Inject protected lateinit var dialogNavigator: DialogNavigator
+    @Inject
+    protected lateinit var screenNavigator: ScreenNavigator
+    @Inject
+    protected lateinit var dialogNavigator: DialogNavigator
     protected lateinit var binding: VB
 
     protected abstract fun getViewBinding(): VB
@@ -43,5 +45,13 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     open fun bindWithViewModel() {
         // TODO - need to work with base ViewModel first, then come back here again
+    }
+
+    private fun showProgress() {
+        dialogNavigator.showProgress(navController)
+    }
+
+    private fun hideProgress() {
+        navController.navigateUp()
     }
 }
