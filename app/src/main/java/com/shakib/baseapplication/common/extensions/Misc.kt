@@ -10,5 +10,12 @@ fun printErrorLog(message: String) = Log.e("GSK", message)
 fun printDebugLog(message: String) = Log.d("GSK", message)
 fun printInfoLog(message: String) = Log.i("GSK", message)
 
-fun Context.showShortToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-fun Context.showLongToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+fun Context.showShortToast(message: String, autoLog: Boolean = true) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    if (autoLog) printInfoLog("AutoLog - $message")
+}
+
+fun Context.showLongToast(message: String, autoLog: Boolean = true) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    if (autoLog) printInfoLog("AutoLog - $message")
+}

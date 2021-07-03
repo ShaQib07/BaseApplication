@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shakib.baseapplication.common.base.BaseFragment
-import com.shakib.baseapplication.common.extensions.printDebugLog
-import com.shakib.baseapplication.common.extensions.printErrorLog
+import com.shakib.baseapplication.common.extensions.showLongToast
 import com.shakib.baseapplication.common.extensions.showShortToast
 import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.databinding.FragmentPrimaryBinding
@@ -43,7 +42,7 @@ class PrimaryFragment : BaseFragment<FragmentPrimaryBinding>() {
                 }
                 is Resource.Error -> {
                     viewModel.hideProgress()
-                    printErrorLog(response.throwable.message.toString())
+                    context?.showLongToast(response.throwable.message.toString())
                 }
             }
         })

@@ -43,7 +43,7 @@ class PrimaryViewModel @Inject constructor(private val fetchQuestionListUseCase:
                         }
 
                         override fun onError(e: Throwable?) {
-                            printErrorLog(e?.message.toString())
+                            printErrorLog("RX response - " + e?.message.toString())
                             questionListLiveData.value = e?.let { Resource.Error(it) }
                         }
                     })
