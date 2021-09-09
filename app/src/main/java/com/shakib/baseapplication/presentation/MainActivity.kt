@@ -84,7 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onSupportNavigateUp() = NavigationUI.navigateUp(navController, appBarConfiguration)
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true
     }
