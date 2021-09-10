@@ -28,6 +28,7 @@ abstract class BaseDialogFragment<VB : ViewBinding> : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        isCancelable = false
         binding = getViewBinding(inflater, container)
         return binding.root
     }

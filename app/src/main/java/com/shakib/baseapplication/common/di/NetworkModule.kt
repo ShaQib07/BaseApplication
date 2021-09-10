@@ -1,6 +1,9 @@
 package com.shakib.baseapplication.common.di
 
-import com.shakib.baseapplication.data.StackoverflowApi
+import com.shakib.baseapplication.common.extensions.printInfoLog
+import com.shakib.baseapplication.data.network.StackoverflowApi
+import com.shakib.baseapplication.data.network.interceptor.AnalyticsInterceptor
+import com.shakib.baseapplication.data.network.interceptor.ApiKeyInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,26 +14,37 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    private const val TIMEOUT_DURATION = 3L
     private const val baseUrl = "https://api.stackexchange.com/2.2/"
-    const val STACKOVERFLOW_API_KEY = "ZiXCZbWaOwnDgpVT9Hx8IA(("
 
     @Provides
     fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
-        val interceptor = HttpLoggingInterceptor()
+        val interceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                printInfoLog(message)
+            }
+        })
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return interceptor
     }
 
     @Provides
     fun provideOkHttpClient(
+        apiKeyInterceptor: ApiKeyInterceptor,
+        analyticsInterceptor: AnalyticsInterceptor,
         loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .readTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS)
+            .addInterceptor(apiKeyInterceptor)
+            .addInterceptor(analyticsInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
     }

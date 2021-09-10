@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.data
+package com.shakib.baseapplication.data.network
 
 import com.shakib.baseapplication.data.model.QuestionsListResponse
 import com.shakib.baseapplication.data.model.SingleQuestionResponse
@@ -11,12 +11,10 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface StackoverflowApi {
-    @GET("/questions?key=" + NetworkModule.STACKOVERFLOW_API_KEY + "&order=desc&sort=activity&site=stackoverflow")
-    fun lastActiveQuestions(@Query("pagesize") pageSize: Int?): Call<QuestionsListResponse>
 
-    @GET("/questions?key=" + NetworkModule.STACKOVERFLOW_API_KEY + "&order=desc&sort=activity&site=stackoverflow")
+    @GET("/questions?order=desc&sort=activity&site=stackoverflow")
     fun fetchQuestionList(@Query("pagesize") pageSize: Int?): Single<Response<QuestionsListResponse>>
 
-    @GET("/questions/{questionId}?key=" + NetworkModule.STACKOVERFLOW_API_KEY + "&site=stackoverflow&filter=withbody")
+    @GET("/questions/{questionId}?site=stackoverflow&filter=withbody")
     fun questionDetails(@Path("questionId") questionId: String?): Call<SingleQuestionResponse>
 }
