@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.shakib.baseapplication.common.base.BaseFragment
 import com.shakib.baseapplication.databinding.FragmentToolbarBinding
+import com.shakib.baseapplication.presentation.dialog.DialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

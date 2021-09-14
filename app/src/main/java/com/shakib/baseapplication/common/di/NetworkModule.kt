@@ -39,27 +39,43 @@ object NetworkModule {
         apiKeyInterceptor: ApiKeyInterceptor,
         analyticsInterceptor: AnalyticsInterceptor,
         loggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .readTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS)
-            .connectTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS)
-            .addInterceptor(apiKeyInterceptor)
-            .addInterceptor(analyticsInterceptor)
-            .addInterceptor(loggingInterceptor)
-            .build()
-    }
+    ) = OkHttpClient.Builder()
+        .readTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS)
+        .connectTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS)
+        .addInterceptor(apiKeyInterceptor)
+        .addInterceptor(analyticsInterceptor)
+        .addInterceptor(loggingInterceptor)
+        .build()
 
+
+    @RetrofitForRx
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provideRetrofitForRx(okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .client(okHttpClient)
             .build()
-    }
 
+
+    @RetrofitForFlow
     @Provides
-    fun provideStackoverflowApi(retrofit: Retrofit): StackoverflowApi =
+    fun provideRetrofitForFlow(okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+
+    @ApiForRx
+    @Provides
+    fun provideRxApi(@RetrofitForRx retrofit: Retrofit): StackoverflowApi =
+        retrofit.create(StackoverflowApi::class.java)
+
+    @ApiForFlow
+    @Provides
+    fun provideFlowApi(@RetrofitForFlow retrofit: Retrofit): StackoverflowApi =
         retrofit.create(StackoverflowApi::class.java)
 }

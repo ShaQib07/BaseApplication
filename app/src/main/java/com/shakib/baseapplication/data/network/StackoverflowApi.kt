@@ -13,7 +13,10 @@ import retrofit2.http.Query
 interface StackoverflowApi {
 
     @GET("/questions?order=desc&sort=activity&site=stackoverflow")
-    fun fetchQuestionList(@Query("pagesize") pageSize: Int?): Single<Response<QuestionsListResponse>>
+    fun fetchQuestionListRx(@Query("pagesize") pageSize: Int?): Single<Response<QuestionsListResponse>>
+
+    @GET("/questions?order=desc&sort=activity&site=stackoverflow")
+    suspend fun fetchQuestionListFlow(@Query("pagesize") pageSize: Int?): QuestionsListResponse
 
     @GET("/questions/{questionId}?site=stackoverflow&filter=withbody")
     fun questionDetails(@Path("questionId") questionId: String?): Call<SingleQuestionResponse>

@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation.primary
+package com.shakib.baseapplication.presentation.rx
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PrimaryViewModel @Inject constructor(private val fetchQuestionListUseCase: FetchQuestionListUseCase) :
+class RxViewModel @Inject constructor(private val fetchQuestionListUseCase: FetchQuestionListUseCase) :
     BaseViewModel() {
 
     val questionListLiveData by lazy { MutableLiveData<Resource<List<Question>>>() }
@@ -25,7 +25,7 @@ class PrimaryViewModel @Inject constructor(private val fetchQuestionListUseCase:
     fun fetchQuestionList() {
         viewModelScope.launch {
             compositeDisposable.add(
-                fetchQuestionListUseCase.fetchQuestionList()
+                fetchQuestionListUseCase.fetchQuestionListRx()
                     .execute(object : DisposableSingleObserver<QuestionsListResponse>() {
                         override fun onStart() {
                             super.onStart()

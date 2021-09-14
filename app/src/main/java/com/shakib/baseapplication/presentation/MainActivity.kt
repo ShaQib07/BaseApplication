@@ -35,7 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         appBarConfiguration =
             AppBarConfiguration(
-                setOf(R.id.primaryFragment, R.id.secondaryFragment),
+                setOf(R.id.rxFragment, R.id.flowFragment),
                 binding.drawerLayout
             )
 
@@ -54,9 +54,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.menu.clear()
             binding.bottomNavigation.visibility = View.GONE
-            val fragmentList = listOf(R.id.primaryFragment, R.id.secondaryFragment)
+            val fragmentList = listOf(R.id.rxFragment, R.id.flowFragment)
             if (fragmentList.contains(destination.id)) {
-                binding.toolbar.menu.add(R.id.primary_menu, R.id.settings, 0, "").apply {
+                binding.toolbar.menu.add(R.id.rx_menu, R.id.settings, 0, "").apply {
                     setShowAsAction(SHOW_AS_ACTION_ALWAYS)
                     icon = ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_settings)
                 }

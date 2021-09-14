@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/primaryFragment">
+    app:startDestination="@id/rxFragment">
 
     <fragment
-        android:id="@+id/primaryFragment"
-        android:name="com.shakib.baseapplication.presentation.primary.PrimaryFragment"
-        android:label="Primary Fragment"
-        tools:layout="@layout/fragment_primary">
+        android:id="@+id/rxFragment"
+        android:name="com.shakib.baseapplication.presentation.rx.RxFragment"
+        android:label="Rx Fragment"
+        tools:layout="@layout/fragment_rx">
         <argument
             android:name="title"
             app:argType="string"
@@ -17,10 +17,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/secondaryFragment"
-        android:name="com.shakib.baseapplication.presentation.SecondaryFragment"
-        android:label="Secondary Fragment"
-        tools:layout="@layout/fragment_secondary">
+        android:id="@+id/flowFragment"
+        android:name="com.shakib.baseapplication.presentation.flow.FlowFragment"
+        android:label="Flow Fragment"
+        tools:layout="@layout/fragment_flow">
         <argument
             android:name="title"
             app:argType="string"
@@ -38,10 +38,6 @@
             app:nullable="true" />
     </fragment>
 
-    <action
-        android:id="@+id/primaryToToolbar"
-        app:destination="@id/toolbarFragment" />
-
     <fragment
         android:id="@+id/menuItemFragment"
         android:name="com.shakib.baseapplication.presentation.MenuItemFragment"
@@ -53,13 +49,10 @@
             app:nullable="true" />
     </fragment>
 
-    <action
-        android:id="@+id/primaryToMenuItem"
-        app:destination="@id/menuItemFragment" />
 
     <dialog
         android:id="@+id/simpleDialog"
-        android:name="com.shakib.baseapplication.presentation.SimpleDialog"
+        android:name="com.shakib.baseapplication.presentation.dialog.SimpleDialog"
         android:label="SimpleDialog">
         <argument
             android:name="title"
@@ -71,20 +64,26 @@
             app:nullable="true" />
     </dialog>
 
+    <dialog
+        android:id="@+id/progressDialog"
+        android:name="com.shakib.baseapplication.presentation.dialog.ProgressDialog"
+        android:label="ProgressDialog" />
+
+
+    <action
+        android:id="@+id/rxToToolbar"
+        app:destination="@id/toolbarFragment" />
+
+    <action
+        android:id="@+id/rxToMenuItem"
+        app:destination="@id/menuItemFragment" />
+
     <action
         android:id="@+id/toolbarToDialog"
         app:destination="@id/simpleDialog" />
 
-    <dialog
-        android:id="@+id/progressDialog"
-        android:name="com.shakib.baseapplication.presentation.ProgressDialog"
-        android:label="ProgressDialog"/>
-
     <action
         android:id="@+id/showProgress"
         app:destination="@id/progressDialog" />
-
-
-
 
 </navigation>

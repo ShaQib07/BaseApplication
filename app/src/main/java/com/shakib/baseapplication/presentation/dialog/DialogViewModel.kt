@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation
+package com.shakib.baseapplication.presentation.dialog
 
 import com.shakib.baseapplication.common.base.BaseViewModel
 import com.shakib.baseapplication.common.utils.SingleLiveEvent

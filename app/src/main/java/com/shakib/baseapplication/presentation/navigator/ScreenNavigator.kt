@@ -8,8 +8,8 @@ import javax.inject.Inject
 class ScreenNavigator @Inject constructor() {
 
     fun toMenuFragment(navController: NavController, data: String) =
-        navController.navigate(MenuItemFragmentDirections.primaryToMenuItem(data))
+        navController.navigate(MenuItemFragmentDirections.rxToMenuItem(data))
 
     fun toToolbarFragment(navController: NavController, data: String) =
-        navController.navigate(ToolbarFragmentDirections.primaryToToolbar(data))
+        navController.navigate(ToolbarFragmentDirections.rxToToolbar(data))
 }

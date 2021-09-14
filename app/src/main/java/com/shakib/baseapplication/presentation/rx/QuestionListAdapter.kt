@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation.primary
+package com.shakib.baseapplication.presentation.rx
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

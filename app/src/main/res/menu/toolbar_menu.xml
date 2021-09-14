@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group
-        android:id="@+id/primary_menu">
+        android:id="@+id/rx_menu">
         <item android:id="@+id/settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings"

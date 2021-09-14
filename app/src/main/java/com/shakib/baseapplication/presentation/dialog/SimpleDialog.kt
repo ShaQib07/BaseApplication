@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation
+package com.shakib.baseapplication.presentation.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.shakib.baseapplication.common.base.BaseDialogFragment
 import com.shakib.baseapplication.databinding.DialogSimpleBinding
+import com.shakib.baseapplication.presentation.dialog.DialogViewModel
 
 class SimpleDialog : BaseDialogFragment<DialogSimpleBinding>() {
 

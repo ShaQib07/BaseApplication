@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation.primary
+package com.shakib.baseapplication.presentation.rx
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,20 +9,20 @@ import com.shakib.baseapplication.common.base.BaseFragment
 import com.shakib.baseapplication.common.extensions.showLongToast
 import com.shakib.baseapplication.common.extensions.showShortToast
 import com.shakib.baseapplication.common.utils.Resource
-import com.shakib.baseapplication.databinding.FragmentPrimaryBinding
+import com.shakib.baseapplication.databinding.FragmentRxBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PrimaryFragment : BaseFragment<FragmentPrimaryBinding>() {
+class RxFragment : BaseFragment<FragmentRxBinding>() {
 
-    private val viewModel: PrimaryViewModel by viewModels()
+    private val viewModel: RxViewModel by viewModels()
 
     override fun getBaseViewModel() = viewModel
 
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ) = FragmentPrimaryBinding.inflate(inflater, container, false)
+    ) = FragmentRxBinding.inflate(inflater, container, false)
 
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
