@@ -1,14 +1,16 @@
 package com.shakib.baseapplication.data.network.interceptor
 
+import android.content.Context
+import com.shakib.baseapplication.R
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class ApiKeyInterceptor @Inject constructor() : Interceptor {
+class ApiKeyInterceptor @Inject constructor(@ApplicationContext context: Context) : Interceptor {
 
-    private val apiKey = "key"
-    private val stackOverFlowApiKey = "ZiXCZbWaOwnDgpVT9Hx8IA(("
-    private val gameApiKey = "4490a60286684172b7bdb47257b388db"
+    private val apiKey = context.getString(R.string.api_key)
+    private val stackOverFlowApiKey = context.getString(R.string.stack_overflow_api_key)
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
