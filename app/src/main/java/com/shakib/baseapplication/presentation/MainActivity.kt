@@ -35,7 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         appBarConfiguration =
             AppBarConfiguration(
-                setOf(R.id.rxFragment, R.id.flowFragment),
+                setOf(R.id.gameFragment, R.id.favoriteFragment),
                 binding.drawerLayout
             )
 
@@ -54,7 +54,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.menu.clear()
             binding.bottomNavigation.visibility = View.GONE
-            val fragmentList = listOf(R.id.rxFragment, R.id.flowFragment)
+            val fragmentList = listOf(R.id.gameFragment, R.id.favoriteFragment, R.id.progressDialog)
             if (fragmentList.contains(destination.id)) {
                 binding.toolbar.menu.add(R.id.rx_menu, R.id.settings, 0, "").apply {
                     setShowAsAction(SHOW_AS_ACTION_ALWAYS)
@@ -69,11 +69,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.navigationDrawer.apply {
             menuOne.setOnClickListener {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
-                screenNavigator.toMenuFragment(navController, getString(R.string.from_menu_item_1))
+                screenNavigator.toRxFragment(navController, getString(R.string.from_menu_item_1))
             }
             menuTwo.setOnClickListener {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
-                screenNavigator.toMenuFragment(navController, getString(R.string.from_menu_item_2))
+                screenNavigator.toFlowFragment(navController, getString(R.string.from_menu_item_2))
             }
             menuThree.setOnClickListener {
                 binding.drawerLayout.closeDrawer(GravityCompat.START)

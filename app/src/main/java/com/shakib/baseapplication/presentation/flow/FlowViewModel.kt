@@ -3,6 +3,7 @@ package com.shakib.baseapplication.presentation.flow
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shakib.baseapplication.common.base.BaseViewModel
+import com.shakib.baseapplication.common.extensions.printDebugLog
 import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Question
 import com.shakib.baseapplication.data.room.QuestionDao
@@ -17,8 +18,7 @@ import javax.inject.Inject
 class FlowViewModel @Inject constructor(
     private val fetchQuestionListUseCase: FetchQuestionListUseCase,
     private val questionDao: QuestionDao
-) :
-    BaseViewModel() {
+) : BaseViewModel() {
 
     val questionListLiveData by lazy { MutableLiveData<Resource<List<Question>>>() }
 
@@ -28,6 +28,7 @@ class FlowViewModel @Inject constructor(
             fetchQuestionListUseCase.fetchQuestionListFlow()
                 .catch {
                     questionListLiveData.value = Resource.Error(it)
+                    printDebugLog(it.message.toString())
                 }
                 .collect {
                     questionDao.insertQuestions(it.questions)

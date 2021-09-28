@@ -2,7 +2,11 @@ package com.shakib.baseapplication.common.extensions
 
 import android.content.Context
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Single
@@ -30,4 +34,22 @@ fun <T : Any> Single<T>.execute(@NonNull observer: DisposableSingleObserver<T>):
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeWith(observer)
 
+fun ImageView.loadImageFromUrl(url: String) =
+    Glide
+        .with(this.context)
+        .load(url)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .centerCrop()
+        .into(this)
 
+fun View.visible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.invisible() {
+    this.visibility = View.INVISIBLE
+}
+
+fun View.gone() {
+    this.visibility = View.GONE
+}

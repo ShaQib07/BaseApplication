@@ -3,7 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/rxFragment">
+    app:startDestination="@id/gameFragment">
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.shakib.baseapplication.presentation.game.GameFragment"
+        android:label="All Games"
+        tools:layout="@layout/fragment_game">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.shakib.baseapplication.presentation.game.FavoriteFragment"
+        android:label="Favorite Games"
+        tools:layout="@layout/fragment_favorite">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/rxFragment"
@@ -49,7 +71,6 @@
             app:nullable="true" />
     </fragment>
 
-
     <dialog
         android:id="@+id/simpleDialog"
         android:name="com.shakib.baseapplication.presentation.dialog.SimpleDialog"
@@ -71,12 +92,20 @@
 
 
     <action
-        android:id="@+id/rxToToolbar"
+        android:id="@+id/mainToToolbar"
         app:destination="@id/toolbarFragment" />
 
     <action
-        android:id="@+id/rxToMenuItem"
+        android:id="@+id/mainToMenuItem"
         app:destination="@id/menuItemFragment" />
+
+    <action
+        android:id="@+id/mainToRx"
+        app:destination="@id/rxFragment" />
+
+    <action
+        android:id="@+id/mainToFlow"
+        app:destination="@id/flowFragment" />
 
     <action
         android:id="@+id/toolbarToDialog"

@@ -1,9 +1,11 @@
 package com.shakib.baseapplication.common.di
 
 import com.shakib.baseapplication.common.extensions.printInfoLog
-import com.shakib.baseapplication.data.network.StackoverflowApi
+import com.shakib.baseapplication.data.network.GameApi
+import com.shakib.baseapplication.data.network.StackOverflowApi
 import com.shakib.baseapplication.data.network.interceptor.AnalyticsInterceptor
 import com.shakib.baseapplication.data.network.interceptor.ApiKeyInterceptor
+import com.shakib.baseapplication.data.network.interceptor.GameApiKeyInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +24,7 @@ object NetworkModule {
 
     private const val TIMEOUT_DURATION = 3L
     private const val baseUrl = "https://api.stackexchange.com/2.2/"
+    private const val gameUrl = "https://api.rawg.io/api/"
 
     @Provides
     fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
@@ -34,6 +37,21 @@ object NetworkModule {
         return interceptor
     }
 
+    @GameHttp
+    @Provides
+    fun provideGameHttpClient(
+        gameApiKeyInterceptor: GameApiKeyInterceptor,
+        analyticsInterceptor: AnalyticsInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor
+    ) = OkHttpClient.Builder()
+        .readTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS)
+        .connectTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS)
+        .addInterceptor(gameApiKeyInterceptor)
+        .addInterceptor(analyticsInterceptor)
+        .addInterceptor(loggingInterceptor)
+        .build()
+
+    @OkHttp
     @Provides
     fun provideOkHttpClient(
         apiKeyInterceptor: ApiKeyInterceptor,
@@ -47,10 +65,9 @@ object NetworkModule {
         .addInterceptor(loggingInterceptor)
         .build()
 
-
     @RetrofitForRx
     @Provides
-    fun provideRetrofitForRx(okHttpClient: OkHttpClient): Retrofit =
+    fun provideRetrofitForRx(@OkHttp okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
@@ -58,24 +75,35 @@ object NetworkModule {
             .client(okHttpClient)
             .build()
 
-
     @RetrofitForFlow
     @Provides
-    fun provideRetrofitForFlow(okHttpClient: OkHttpClient): Retrofit =
+    fun provideRetrofitForFlow(@OkHttp okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
 
+    @RetrofitForGame
+    @Provides
+    fun provideRetrofitForGame(@GameHttp okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(gameUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
 
     @ApiForRx
     @Provides
-    fun provideRxApi(@RetrofitForRx retrofit: Retrofit): StackoverflowApi =
-        retrofit.create(StackoverflowApi::class.java)
+    fun provideRxApi(@RetrofitForRx retrofit: Retrofit): StackOverflowApi =
+        retrofit.create(StackOverflowApi::class.java)
 
     @ApiForFlow
     @Provides
-    fun provideFlowApi(@RetrofitForFlow retrofit: Retrofit): StackoverflowApi =
-        retrofit.create(StackoverflowApi::class.java)
+    fun provideFlowApi(@RetrofitForFlow retrofit: Retrofit): StackOverflowApi =
+        retrofit.create(StackOverflowApi::class.java)
+
+    @Provides
+    fun provideGameApi(@RetrofitForGame retrofit: Retrofit): GameApi =
+        retrofit.create(GameApi::class.java)
 }
