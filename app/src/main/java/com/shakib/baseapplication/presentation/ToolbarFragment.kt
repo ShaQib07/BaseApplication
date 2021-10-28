@@ -24,7 +24,7 @@ class ToolbarFragment : BaseFragment<FragmentToolbarBinding>() {
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
         binding.tv.setTextColor(Color.BLUE)
-        binding.tv.text = title
+        binding.tv.text = data
         configureClickListeners()
         configureObservers()
     }

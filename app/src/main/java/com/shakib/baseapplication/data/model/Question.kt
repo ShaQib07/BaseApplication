@@ -8,8 +8,8 @@ import java.io.Serializable
 
 @Entity
 data class Question(
-        @ColumnInfo(name = "title")
-        @SerializedName("title")
+        @ColumnInfo(name = "data")
+        @SerializedName("data")
         val title: String,
 
         @PrimaryKey

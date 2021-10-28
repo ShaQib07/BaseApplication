@@ -11,18 +11,33 @@
         android:label="All Games"
         tools:layout="@layout/fragment_game">
         <argument
-            android:name="title"
+            android:name="data"
             app:argType="string"
             app:nullable="true" />
     </fragment>
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.shakib.baseapplication.presentation.game.FavoriteFragment"
+        android:name="com.shakib.baseapplication.presentation.favorite.FavoriteFragment"
         android:label="Favorite Games"
         tools:layout="@layout/fragment_favorite">
         <argument
+            android:name="data"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.shakib.baseapplication.presentation.details.DetailFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_detail">
+        <argument
             android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="data"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -33,7 +48,7 @@
         android:label="Rx Fragment"
         tools:layout="@layout/fragment_rx">
         <argument
-            android:name="title"
+            android:name="data"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -44,7 +59,7 @@
         android:label="Flow Fragment"
         tools:layout="@layout/fragment_flow">
         <argument
-            android:name="title"
+            android:name="data"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -55,7 +70,7 @@
         android:label="Toolbar Fragment"
         tools:layout="@layout/fragment_toolbar">
         <argument
-            android:name="title"
+            android:name="data"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -66,7 +81,7 @@
         android:label="Menu Item Fragment"
         tools:layout="@layout/fragment_menu_item">
         <argument
-            android:name="title"
+            android:name="data"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -106,6 +121,10 @@
     <action
         android:id="@+id/mainToFlow"
         app:destination="@id/flowFragment" />
+
+    <action
+        android:id="@+id/mainToDetail"
+        app:destination="@id/detailFragment" />
 
     <action
         android:id="@+id/toolbarToDialog"

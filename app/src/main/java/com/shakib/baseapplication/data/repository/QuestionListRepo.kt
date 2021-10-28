@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FetchQuestionListRepo @Inject constructor(
+class QuestionListRepo @Inject constructor(
     @ApiForRx private val stackOverflowApiRx: StackOverflowApi,
     @ApiForFlow private val stackOverflowApiFlow: StackOverflowApi,
     private val questionListMapper: QuestionListMapper

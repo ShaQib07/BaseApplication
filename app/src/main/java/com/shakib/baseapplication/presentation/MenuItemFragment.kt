@@ -15,6 +15,6 @@ class MenuItemFragment : BaseFragment<FragmentMenuItemBinding>() {
 
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
-        binding.tv.text = title
+        binding.tv.text = data
     }
 }

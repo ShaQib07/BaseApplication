@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.shakib.baseapplication.common.base.BaseFragment
 import com.shakib.baseapplication.common.extensions.showLongToast
@@ -12,7 +12,6 @@ import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Game
 import com.shakib.baseapplication.databinding.FragmentGameBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class GameFragment : BaseFragment<FragmentGameBinding>() {
@@ -33,12 +32,8 @@ class GameFragment : BaseFragment<FragmentGameBinding>() {
         viewModel.gameListLiveData.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> viewModel.showProgress()
-                is Resource.Success -> {
-                    lifecycleScope.launch { configureRecyclerView(response.data, viewModel.fetchFavGameList()) }
-                }
-                is Resource.Error -> {
-                    lifecycleScope.launch { configureRecyclerView(listOf(), listOf()) }
-                }
+                is Resource.Success -> configureRecyclerView(response.data, viewModel.favGameList)
+                is Resource.Error -> configureRecyclerView(listOf(), listOf())
             }
         })
     }
@@ -53,7 +48,13 @@ class GameFragment : BaseFragment<FragmentGameBinding>() {
                 adapter = GameAdapter(
                     games,
                     favGames,
-                    { game -> context.showLongToast(game?.name.toString()) },
+                    { game ->
+                        screenNavigator.toDetailFragment(
+                            findNavController(),
+                            game?.name.toString(),
+                            game?.id.toString()
+                        )
+                    },
                     { game, isFavorite ->
                         if (isFavorite)
                             viewModel.addToFavorite(game)

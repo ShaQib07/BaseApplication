@@ -4,20 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.shakib.baseapplication.R
-import com.shakib.baseapplication.databinding.DialogProgressBinding
+import com.shakib.baseapplication.common.extensions.printInfoLog
 import com.shakib.baseapplication.presentation.navigator.DialogNavigator
 import com.shakib.baseapplication.presentation.navigator.ScreenNavigator
 import javax.inject.Inject
-import android.view.Gravity
-
-import android.view.WindowManager
-import com.shakib.baseapplication.common.extensions.printInfoLog
 
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
@@ -27,10 +20,10 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     @Inject
     protected lateinit var dialogNavigator: DialogNavigator
-    var title: String? = null
+    var data: String? = null
 
     companion object {
-        const val TITLE = "title"
+        const val DATA = "data"
     }
 
     protected lateinit var binding: VB
@@ -86,7 +79,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private fun extractArguments() {
         arguments?.let {
-            title = it.getString(TITLE)
+            data = it.getString(DATA)
+            printInfoLog(data.toString())
         }
     }
 

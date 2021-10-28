@@ -12,7 +12,7 @@ abstract class BaseDialogFragment<VB : ViewBinding> : DialogFragment() {
     var message: String? = null
 
     companion object {
-        const val TITLE = "title"
+        const val TITLE = "data"
         const val MESSAGE = "message"
     }
 
