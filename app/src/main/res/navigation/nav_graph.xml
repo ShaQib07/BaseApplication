@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.shakib.baseapplication.presentation.game.GameFragment"
+        android:name="com.shakib.baseapplication.presentation.screens.game.GameFragment"
         android:label="All Games"
         tools:layout="@layout/fragment_game">
         <argument
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.shakib.baseapplication.presentation.favorite.FavoriteFragment"
+        android:name="com.shakib.baseapplication.presentation.screens.favorite.FavoriteFragment"
         android:label="Favorite Games"
         tools:layout="@layout/fragment_favorite">
         <argument
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.shakib.baseapplication.presentation.details.DetailFragment"
+        android:name="com.shakib.baseapplication.presentation.screens.details.DetailFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_detail">
         <argument
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/rxFragment"
-        android:name="com.shakib.baseapplication.presentation.rx.RxFragment"
+        android:name="com.shakib.baseapplication.presentation.screens.rx.RxFragment"
         android:label="Rx Fragment"
         tools:layout="@layout/fragment_rx">
         <argument
@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/flowFragment"
-        android:name="com.shakib.baseapplication.presentation.flow.FlowFragment"
+        android:name="com.shakib.baseapplication.presentation.screens.flow.FlowFragment"
         android:label="Flow Fragment"
         tools:layout="@layout/fragment_flow">
         <argument
@@ -76,10 +76,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/menuItemFragment"
-        android:name="com.shakib.baseapplication.presentation.MenuItemFragment"
-        android:label="Menu Item Fragment"
-        tools:layout="@layout/fragment_menu_item">
+        android:id="@+id/workManagerFragment"
+        android:name="com.shakib.baseapplication.presentation.screens.workmanager.WorkManagerFragment"
+        android:label="WorkManager Fragment"
+        tools:layout="@layout/fragment_work_manager">
         <argument
             android:name="data"
             app:argType="string"
@@ -111,8 +111,8 @@
         app:destination="@id/toolbarFragment" />
 
     <action
-        android:id="@+id/mainToMenuItem"
-        app:destination="@id/menuItemFragment" />
+        android:id="@+id/mainToWorkManager"
+        app:destination="@id/workManagerFragment" />
 
     <action
         android:id="@+id/mainToRx"

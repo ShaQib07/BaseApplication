@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation.rx
+package com.shakib.baseapplication.presentation.screens.rx
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope

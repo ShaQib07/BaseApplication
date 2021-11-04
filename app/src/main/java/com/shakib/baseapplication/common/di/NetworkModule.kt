@@ -28,11 +28,7 @@ object NetworkModule {
 
     @Provides
     fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
-        val interceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
-            override fun log(message: String) {
-                printInfoLog(message)
-            }
-        })
+        val interceptor = HttpLoggingInterceptor { message -> printInfoLog(message) }
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return interceptor
     }

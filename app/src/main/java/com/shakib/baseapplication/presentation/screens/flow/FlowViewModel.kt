@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation.flow
+package com.shakib.baseapplication.presentation.screens.flow
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope

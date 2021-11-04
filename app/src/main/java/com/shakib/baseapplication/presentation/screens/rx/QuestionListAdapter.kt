@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation.rx
+package com.shakib.baseapplication.presentation.screens.rx
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

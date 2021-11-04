@@ -2,6 +2,7 @@ package com.shakib.baseapplication.common.di
 
 import javax.inject.Qualifier
 
+/*-------------- okhttp qualifier --------------*/
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class OkHttp
@@ -11,6 +12,7 @@ annotation class OkHttp
 annotation class GameHttp
 
 
+/*-------------- retrofit qualifier --------------*/
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class RetrofitForRx
@@ -24,6 +26,7 @@ annotation class RetrofitForFlow
 annotation class RetrofitForGame
 
 
+/*-------------- api qualifier --------------*/
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ApiForRx
@@ -31,3 +34,13 @@ annotation class ApiForRx
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ApiForFlow
+
+
+/*-------------- work request qualifier --------------*/
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class OneTimeRequest
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class DelayedRequest

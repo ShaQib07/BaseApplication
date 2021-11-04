@@ -7,7 +7,7 @@
     <string name="a_simple_dialog">A simple dialog</string>
     <string name="menu_item_1">Rx Fragment</string>
     <string name="menu_item_2">Flow Fragment</string>
-    <string name="menu_item_3">Menu Fragment</string>
+    <string name="menu_item_3">WorkManager Fragment</string>
     <string name="settings">Settings</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -22,4 +22,13 @@
     <string name="stack_overflow_api_key">ZiXCZbWaOwnDgpVT9Hx8IA((</string>
     <string name="game_api_key">4490a60286684172b7bdb47257b388db</string>
     <string name="api_key">key</string>
+    <string name="image_upload">Upload image</string>
+    <string name="text_start_download">Start Image Download</string>
+    <string name="text_query_work_info">Query Work Info</string>
+    <string name="text_upload_desc">Image Downloading Using WorkManager</string>
+    <string name="text_download_desc">Your Download with WorkManager is complete</string>
+    <plurals name="text_work_desc">
+        <item quantity="one">WorkManager completed %d task</item>
+        <item quantity="other">WorkManager completed %d tasks</item>
+    </plurals>
 </resources>

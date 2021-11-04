@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation.details
+package com.shakib.baseapplication.presentation.screens.details
 
 import android.os.Build
 import android.os.Bundle

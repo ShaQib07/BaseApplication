@@ -1,6 +1,10 @@
 package com.shakib.baseapplication.common.extensions
 
 import android.content.Context
+import android.content.ContextWrapper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -12,6 +16,12 @@ import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
+import java.net.URL
+import java.util.*
 
 inline fun <reified T> Any?.cast(): T? = if (this is T) this else null
 
@@ -52,4 +62,46 @@ fun View.invisible() {
 
 fun View.gone() {
     this.visibility = View.GONE
+}
+
+fun URL.toBitmap(): Bitmap? {
+    return try {
+        BitmapFactory.decodeStream(openStream())
+    } catch (e: IOException) {
+        null
+    }
+}
+
+fun Bitmap.saveToInternalStorage(context: Context): Uri? {
+    val wrapper = ContextWrapper(context)
+    var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+    file = File(file, "${UUID.randomUUID()}.jpg")
+    return try {
+        val stream: OutputStream = FileOutputStream(file)
+        compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        stream.flush()
+        stream.close()
+        Uri.parse(file.absolutePath)
+    } catch (e: IOException) {
+        e.printStackTrace()
+        null
+    }
+}
+
+fun Context.getUriFromUrl(): Uri? {
+    // 1
+    val imageUrl =
+        URL(
+            "https://images.pexels.com/photos/169573/pexels-photo-169573.jpeg" +
+                    "?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+        )
+    // 2
+    val bitmap = imageUrl.toBitmap()
+
+    // 3
+    var savedUri: Uri? = null
+    bitmap?.apply {
+        savedUri = saveToInternalStorage(this@getUriFromUrl)
+    }
+    return savedUri
 }

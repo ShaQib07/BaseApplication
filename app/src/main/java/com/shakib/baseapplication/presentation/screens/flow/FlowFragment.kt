@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.presentation.flow
+package com.shakib.baseapplication.presentation.screens.flow
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import com.shakib.baseapplication.common.extensions.showShortToast
 import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Question
 import com.shakib.baseapplication.databinding.FragmentFlowBinding
-import com.shakib.baseapplication.presentation.rx.QuestionListAdapter
+import com.shakib.baseapplication.presentation.screens.rx.QuestionListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

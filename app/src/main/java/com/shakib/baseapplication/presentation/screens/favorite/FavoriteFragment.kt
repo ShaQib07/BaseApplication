@@ -1,60 +1,56 @@
-package com.shakib.baseapplication.presentation.game
+package com.shakib.baseapplication.presentation.screens.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.shakib.baseapplication.common.base.BaseFragment
 import com.shakib.baseapplication.common.extensions.showLongToast
+import com.shakib.baseapplication.common.extensions.visible
 import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Game
-import com.shakib.baseapplication.databinding.FragmentGameBinding
+import com.shakib.baseapplication.databinding.FragmentFavoriteBinding
+import com.shakib.baseapplication.presentation.screens.game.GameAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GameFragment : BaseFragment<FragmentGameBinding>() {
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
-    private val viewModel: GameViewModel by viewModels()
+    private val viewModel: FavoriteViewModel by viewModels()
 
     override fun getBaseViewModel() = viewModel
 
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ) = FragmentGameBinding.inflate(layoutInflater, container, false)
+    ) = FragmentFavoriteBinding.inflate(inflater, container, false)
 
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
 
-        viewModel.fetchGameList()
-        viewModel.gameListLiveData.observe(viewLifecycleOwner, { response ->
+        viewModel.fetchFavGameList()
+        viewModel.favGameListLiveData.observe(viewLifecycleOwner, { response ->
             when (response) {
-                is Resource.Loading -> viewModel.showProgress()
-                is Resource.Success -> configureRecyclerView(response.data, viewModel.favGameList)
-                is Resource.Error -> configureRecyclerView(listOf(), listOf())
+                //is Resource.Loading -> viewModel.showProgress()
+                is Resource.Success -> configureRecyclerView(response.data)
+                is Resource.Error -> configureRecyclerView(listOf())
             }
         })
     }
 
-    private fun configureRecyclerView(games: List<Game>, favGames: List<Game>) {
+    private fun configureRecyclerView(games: List<Game>) {
         viewModel.hideProgress()
         if (games.isNullOrEmpty())
-            context?.showLongToast("Oops!! Something went wrong...")
+            binding.tvEmpty.visible()
         else
-            binding.rvGames.apply {
+            binding.rvFavGames.apply {
+                visible()
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = GameAdapter(
                     games,
-                    favGames,
-                    { game ->
-                        screenNavigator.toDetailFragment(
-                            findNavController(),
-                            game?.name.toString(),
-                            game?.id.toString()
-                        )
-                    },
+                    games,
+                    { game -> context.showLongToast(game?.name.toString()) },
                     { game, isFavorite ->
                         if (isFavorite)
                             viewModel.addToFavorite(game)
