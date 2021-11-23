@@ -22,10 +22,10 @@
     <string name="stack_overflow_api_key">ZiXCZbWaOwnDgpVT9Hx8IA((</string>
     <string name="game_api_key">4490a60286684172b7bdb47257b388db</string>
     <string name="api_key">key</string>
-    <string name="image_upload">Upload image</string>
-    <string name="text_start_download">Start Image Download</string>
+    <string name="image_download">Download image</string>
+    <string name="text_start_download">Start Download</string>
     <string name="text_query_work_info">Query Work Info</string>
-    <string name="text_upload_desc">Image Downloading Using WorkManager</string>
+    <string name="text_upload_desc">Downloading Using WorkManager</string>
     <string name="text_download_desc">Your Download with WorkManager is complete</string>
     <plurals name="text_work_desc">
         <item quantity="one">WorkManager completed %d task</item>

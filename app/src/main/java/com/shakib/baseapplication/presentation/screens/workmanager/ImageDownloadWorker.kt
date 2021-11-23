@@ -45,9 +45,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.work.*
 import com.shakib.baseapplication.R
+import com.shakib.baseapplication.common.extensions.downloadVideo
 import com.shakib.baseapplication.common.extensions.getUriFromUrl
 import kotlinx.coroutines.delay
-
 
 class ImageDownloadWorker(
     private val context: Context,
@@ -56,11 +56,11 @@ class ImageDownloadWorker(
     override suspend fun doWork(): Result {
         // 1
         setForeground(createForegroundInfo())
-        delay(10000)
+        delay(3000)
         // 2
-        val savedUri = context.getUriFromUrl()
+        val data = context.downloadVideo("https://cdn.videvo.net/videvo_files/video/free/2021-04/large_watermarked/210329_06B_Bali_1080p_013_preview.mp4")
         // 3
-        return Result.success(workDataOf("IMAGE_URI" to savedUri.toString()))
+        return Result.success(workDataOf("DATA" to data))
     }
 
     private fun createForegroundInfo(): ForegroundInfo {

@@ -22,11 +22,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imgUpload"
+        android:id="@+id/imgDownload"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="32dp"
-        android:contentDescription="@string/image_upload"
+        android:contentDescription="@string/image_download"
         android:src="@drawable/ic_baseline_cloud_download_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,14 +42,14 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgUpload" />
+        app:layout_constraintTop_toBottomOf="@id/imgDownload" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/downloadLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="tvHeader,btnImageDownload,imgUpload" />
+        app:constraint_referenced_ids="tvHeader,btnImageDownload,imgDownload" />
 
     <TextView
         android:id="@+id/tvDownloadHeader"
@@ -65,16 +65,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imgDownloaded"
+    <VideoView
+        android:id="@+id/videoDownloaded"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDownloadHeader"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintTop_toBottomOf="@id/tvDownloadHeader" />
 
     <Button
         android:id="@+id/btnQueryWork"
@@ -84,7 +82,7 @@
         android:text="@string/text_query_work_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgDownloaded" />
+        app:layout_constraintTop_toBottomOf="@id/videoDownloaded" />
 
     <TextView
         android:id="@+id/tvWorkInfo"
@@ -105,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="btnQueryWork,tvDownloadHeader,imgDownloaded" />
+        app:constraint_referenced_ids="btnQueryWork,tvDownloadHeader,videoDownloaded" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

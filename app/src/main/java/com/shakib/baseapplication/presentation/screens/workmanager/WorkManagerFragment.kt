@@ -1,18 +1,17 @@
 package com.shakib.baseapplication.presentation.screens.workmanager
 
 import android.Manifest
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import com.shakib.baseapplication.R
 import com.shakib.baseapplication.common.base.BaseFragment
 import com.shakib.baseapplication.common.extensions.gone
+import com.shakib.baseapplication.common.extensions.showLongToast
 import com.shakib.baseapplication.common.extensions.visible
 import com.shakib.baseapplication.databinding.FragmentWorkManagerBinding
+import com.tbruyelle.rxpermissions3.RxPermissions
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -31,14 +30,7 @@ class WorkManagerFragment : BaseFragment<FragmentWorkManagerBinding>() {
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
 
-        requestStoragePermissions()
-        binding.btnImageDownload.setOnClickListener {
-            viewModel.showProgress()
-            binding.downloadLayout.gone()
-            viewModel.createOneTimeWorkRequest()
-            //createPeriodicWorkRequest()
-            //createDelayedWorkRequest()
-        }
+        binding.btnImageDownload.setOnClickListener { downloadWithPermission() }
         binding.btnQueryWork.setOnClickListener { queryWorkInfo() }
     }
 
@@ -47,23 +39,30 @@ class WorkManagerFragment : BaseFragment<FragmentWorkManagerBinding>() {
         viewModel.requestIdLiveData.observe(viewLifecycleOwner, { observeWork(it) })
     }
 
-    private fun requestStoragePermissions() {
-        requestMultiplePermissions.launch(
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-        )
+    private fun downloadWithPermission() {
+        RxPermissions(this)
+            .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .subscribe { granted ->
+                if (granted) {
+                    viewModel.showProgress()
+                    binding.downloadLayout.gone()
+                    viewModel.createOneTimeWorkRequest()
+                    //createPeriodicWorkRequest()
+                    //createDelayedWorkRequest()
+                } else
+                    requireContext().showLongToast("|| Permission Denied ||")
+            }
     }
 
-    private val requestMultiplePermissions =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
-
-    private fun showDownloadedImage(resultUri: Uri?) {
+    private fun playDownloadedVideo(path: String) {
         binding.completeLayout.visible()
         binding.downloadLayout.gone()
         viewModel.hideProgress()
-        binding.imgDownloaded.setImageURI(resultUri)
+        binding.videoDownloaded.apply {
+            setVideoPath(path)
+            requestFocus()
+            start()
+        }
     }
 
     private fun observeWork(id: UUID) {
@@ -72,10 +71,9 @@ class WorkManagerFragment : BaseFragment<FragmentWorkManagerBinding>() {
                 if (info != null && info.state.isFinished) {
                     viewModel.hideProgress()
                     binding.downloadLayout.visible()
-                    val uriResult = info.outputData.getString("IMAGE_URI")
-                    if (uriResult != null) {
-                        showDownloadedImage(uriResult.toUri())
-                    }
+                    val path = info.outputData.getString("DATA")
+                    if (path != null)
+                        playDownloadedVideo(path)
                 }
             })
     }

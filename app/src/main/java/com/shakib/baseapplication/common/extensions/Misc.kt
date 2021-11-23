@@ -16,11 +16,10 @@ import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import kotlinx.coroutines.Dispatchers
+import java.io.*
 import java.net.URL
+import java.net.URLConnection
 import java.util.*
 
 inline fun <reified T> Any?.cast(): T? = if (this is T) this else null
