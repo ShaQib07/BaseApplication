@@ -3,7 +3,8 @@ package com.shakib.baseapplication.presentation.screens.workmanager
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.shakib.baseapplication.common.base.BaseViewModel
-import com.shakib.baseapplication.common.di.*
+import com.shakib.baseapplication.common.di.DelayedRequest
+import com.shakib.baseapplication.common.di.OneTimeRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
@@ -27,7 +28,7 @@ class WorkManagerViewModel @Inject constructor(
         requestIdLiveData.value = oneTimeWorkRequest.id
     }
 
-    private fun createDelayedWorkRequest() {
+    fun createDelayedWorkRequest() {
         workManager.enqueueUniqueWork(
             "delayedImageDownload",
             ExistingWorkPolicy.KEEP,
@@ -36,13 +37,18 @@ class WorkManagerViewModel @Inject constructor(
         requestIdLiveData.value = delayedWorkRequest.id
     }
 
-    private fun createPeriodicWorkRequest() {
+    fun createPeriodicWorkRequest() {
         workManager.enqueueUniquePeriodicWork(
             "periodicImageDownload",
             ExistingPeriodicWorkPolicy.KEEP,
             periodicWorkRequest
         )
         requestIdLiveData.value = periodicWorkRequest.id
+    }
+
+    fun createChainWorkRequest() {
+        workManager.beginWith(oneTimeWorkRequest).then(delayedWorkRequest).enqueue()
+        requestIdLiveData.value = delayedWorkRequest.id
     }
 
     override fun onClear() {}

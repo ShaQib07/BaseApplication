@@ -47,8 +47,6 @@ class WorkManagerFragment : BaseFragment<FragmentWorkManagerBinding>() {
                     viewModel.showProgress()
                     binding.downloadLayout.gone()
                     viewModel.createOneTimeWorkRequest()
-                    //createPeriodicWorkRequest()
-                    //createDelayedWorkRequest()
                 } else
                     requireContext().showLongToast("|| Permission Denied ||")
             }

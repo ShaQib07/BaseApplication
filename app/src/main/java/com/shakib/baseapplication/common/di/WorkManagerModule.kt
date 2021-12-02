@@ -2,7 +2,7 @@ package com.shakib.baseapplication.common.di
 
 import android.content.Context
 import androidx.work.*
-import com.shakib.baseapplication.presentation.screens.workmanager.ImageDownloadWorker
+import com.shakib.baseapplication.presentation.screens.workmanager.VideoDownloadWorker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +27,7 @@ object WorkManagerModule {
     @OneTimeRequest
     @Provides
     fun provideOneTimeWorker(constraints: Constraints) =
-        OneTimeWorkRequestBuilder<ImageDownloadWorker>()
+        OneTimeWorkRequestBuilder<VideoDownloadWorker>()
             .setConstraints(constraints)
             .addTag("imageWork")
             .build()
@@ -35,7 +35,7 @@ object WorkManagerModule {
     @DelayedRequest
     @Provides
     fun provideDelayedWorker(constraints: Constraints) =
-        OneTimeWorkRequestBuilder<ImageDownloadWorker>()
+        OneTimeWorkRequestBuilder<VideoDownloadWorker>()
             .setConstraints(constraints)
             .setInitialDelay(2, TimeUnit.SECONDS)
             .addTag("imageWork")
@@ -43,9 +43,7 @@ object WorkManagerModule {
 
     @Provides
     fun providePeriodicWorker(constraints: Constraints) =
-        PeriodicWorkRequestBuilder<ImageDownloadWorker>(
-            15, TimeUnit.MINUTES
-        )
+        PeriodicWorkRequestBuilder<VideoDownloadWorker>(15, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .addTag("imageWork")
             .build()
