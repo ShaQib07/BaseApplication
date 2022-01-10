@@ -27,6 +27,7 @@
     <string name="text_query_work_info">Query Work Info</string>
     <string name="text_upload_desc">Downloading Using WorkManager</string>
     <string name="text_download_desc">Your Download with WorkManager is complete</string>
+    <string name="text_retry">Retry</string>
     <plurals name="text_work_desc">
         <item quantity="one">WorkManager completed %d task</item>
         <item quantity="other">WorkManager completed %d tasks</item>

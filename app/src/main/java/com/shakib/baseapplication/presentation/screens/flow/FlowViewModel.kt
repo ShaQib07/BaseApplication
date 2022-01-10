@@ -6,7 +6,7 @@ import com.shakib.baseapplication.common.base.BaseViewModel
 import com.shakib.baseapplication.common.extensions.printDebugLog
 import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Question
-import com.shakib.baseapplication.data.room.QuestionDao
+import com.shakib.baseapplication.data.room.question.QuestionDao
 import com.shakib.baseapplication.domain.FetchQuestionListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch

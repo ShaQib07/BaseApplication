@@ -20,7 +20,10 @@ data class Game(
 
         @ColumnInfo(name = "name")
         @SerializedName("name")
-        val name: String
+        val name: String,
+
+        @ColumnInfo(name = "isFavorite")
+        val isFavorite: Boolean = false
 ) : Serializable {
     @Ignore
     var screenShots: MutableList<ScreenShot>? = null

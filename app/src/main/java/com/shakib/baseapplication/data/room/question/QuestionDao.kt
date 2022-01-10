@@ -1,4 +1,4 @@
-package com.shakib.baseapplication.data.room
+package com.shakib.baseapplication.data.room.question
 
 import androidx.room.Dao
 import androidx.room.Insert

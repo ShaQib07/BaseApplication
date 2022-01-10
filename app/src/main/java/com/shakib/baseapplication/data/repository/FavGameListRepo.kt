@@ -1,7 +1,7 @@
 package com.shakib.baseapplication.data.repository
 
 import com.shakib.baseapplication.data.model.Game
-import com.shakib.baseapplication.data.room.GameDao
+import com.shakib.baseapplication.data.room.game.GameDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

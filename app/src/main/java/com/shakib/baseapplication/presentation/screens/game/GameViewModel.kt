@@ -2,11 +2,11 @@ package com.shakib.baseapplication.presentation.screens.game
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.shakib.baseapplication.common.base.BaseViewModel
-import com.shakib.baseapplication.common.extensions.printErrorLog
 import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Game
-import com.shakib.baseapplication.data.room.GameDao
+import com.shakib.baseapplication.data.room.game.GameDao
 import com.shakib.baseapplication.domain.FetchFavGameListUseCase
 import com.shakib.baseapplication.domain.FetchGameListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,23 +22,18 @@ class GameViewModel @Inject constructor(
     private val gameDao: GameDao
 ) : BaseViewModel() {
 
-    val gameListLiveData by lazy { MutableLiveData<Resource<List<Game>>>() }
-    var favGameList: List<Game> = listOf()
-    fun fetchGameList() {
+    val favGameListLiveData by lazy { MutableLiveData<Resource<List<Game>>>() }
+
+    fun fetchFavGameList() {
         viewModelScope.launch {
-            gameListLiveData.value = Resource.Loading()
-            fetchFavGameList()
-            fetchGameListUseCase.fetchGameList()
-                .catch { gameListLiveData.value = Resource.Error(it) }
-                .collect { gameListLiveData.value = Resource.Success(it.results) }
+            favGameListLiveData.value = Resource.Loading()
+            fetchFavGameListUseCase.fetchFavGameList()
+                .catch { favGameListLiveData.value = Resource.Error(it) }
+                .collect { favGameListLiveData.value = Resource.Success(it) }
         }
     }
 
-    private suspend fun fetchFavGameList() =
-        fetchFavGameListUseCase.fetchFavGameList()
-            .catch { printErrorLog(it.message.toString()) }
-            .collect { favGameList = it }
-
+    fun fetchGamesPaginated() = fetchGameListUseCase.fetchGamesPaginated().cachedIn(viewModelScope)
 
     fun addToFavorite(game: Game?) = viewModelScope.launch { game?.let { gameDao.insertGame(it) } }
 
