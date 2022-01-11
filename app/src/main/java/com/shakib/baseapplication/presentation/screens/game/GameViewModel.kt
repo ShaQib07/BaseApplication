@@ -1,39 +1,27 @@
 package com.shakib.baseapplication.presentation.screens.game
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.shakib.baseapplication.common.base.BaseViewModel
-import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Game
 import com.shakib.baseapplication.data.room.game.GameDao
 import com.shakib.baseapplication.domain.FetchFavGameListUseCase
 import com.shakib.baseapplication.domain.FetchGameListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    private val fetchGameListUseCase: FetchGameListUseCase,
-    private val fetchFavGameListUseCase: FetchFavGameListUseCase,
+    fetchGameListUseCase: FetchGameListUseCase,
+    fetchFavGameListUseCase: FetchFavGameListUseCase,
     private val gameDao: GameDao
 ) : BaseViewModel() {
 
-    val favGameListLiveData by lazy { MutableLiveData<Resource<List<Game>>>() }
+    val paginatedGames = fetchGameListUseCase.fetchGamesPaginated().cachedIn(viewModelScope)
 
-    fun fetchFavGameList() {
-        viewModelScope.launch {
-            favGameListLiveData.value = Resource.Loading()
-            fetchFavGameListUseCase.fetchFavGameList()
-                .catch { favGameListLiveData.value = Resource.Error(it) }
-                .collect { favGameListLiveData.value = Resource.Success(it) }
-        }
-    }
-
-    fun fetchGamesPaginated() = fetchGameListUseCase.fetchGamesPaginated().cachedIn(viewModelScope)
+    val favoriteGames = fetchFavGameListUseCase.fetchFavGameList().asLiveData()
 
     fun addToFavorite(game: Game?) = viewModelScope.launch { game?.let { gameDao.insertGame(it) } }
 

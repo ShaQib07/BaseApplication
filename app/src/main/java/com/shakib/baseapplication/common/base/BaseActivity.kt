@@ -37,11 +37,11 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        configureViews()
+        configureViews(savedInstanceState)
         bindWithViewModel()
     }
 
-    open fun configureViews() {}
+    open fun configureViews(savedInstanceState: Bundle?) {}
 
     open fun bindWithViewModel() {
         // TODO - need to work with base ViewModel first, then come back here again

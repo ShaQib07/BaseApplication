@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FetchFavGameListUseCase @Inject constructor(private val gameListRepo: FavGameListRepo) {
-    suspend fun fetchFavGameList(): Flow<List<Game>> = gameListRepo.fetchFavGameList()
+    fun fetchFavGameList(): Flow<List<Game>> = gameListRepo.fetchFavGameList()
 }

@@ -28,15 +28,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
-
-        viewModel.fetchFavGameList()
-        viewModel.favGameListLiveData.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                //is Resource.Loading -> viewModel.showProgress()
-                is Resource.Success -> configureRecyclerView(response.data)
-                is Resource.Error -> configureRecyclerView(listOf())
-            }
-        })
+        viewModel.favoriteGames.observe(viewLifecycleOwner, { configureRecyclerView(it) })
     }
 
     private fun configureRecyclerView(games: List<Game>) {

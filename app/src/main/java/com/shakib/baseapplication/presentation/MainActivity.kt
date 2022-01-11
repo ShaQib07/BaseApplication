@@ -1,5 +1,6 @@
 package com.shakib.baseapplication.presentation
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
@@ -20,8 +21,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
-    override fun configureViews() {
-        super.configureViews()
+    override fun configureViews(savedInstanceState: Bundle?) {
+        super.configureViews(savedInstanceState)
         configureNavGraph()
         checkContentsVisibility()
         configureClickListeners()
@@ -45,6 +46,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         // bind navigation component with bottom navigation
         binding.bottomNavigation.setupWithNavController(navController)
+        binding.bottomNavigation.setOnItemReselectedListener {
+            // Do nothing, just to avoid reloading of fragments
+        }
 
         // bind navigation component with toolbar
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -92,7 +96,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.settings -> {
-                screenNavigator.toToolbarFragment(navController, getString(R.string.hello_toolbar_fragment))
+                screenNavigator.toToolbarFragment(
+                    navController,
+                    getString(R.string.hello_toolbar_fragment)
+                )
                 true
             }
             else -> super.onOptionsItemSelected(item)

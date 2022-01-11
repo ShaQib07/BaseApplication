@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shakib.baseapplication.common.base.BaseFragment
-import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Game
 import com.shakib.baseapplication.databinding.FragmentGameBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,19 +29,10 @@ class GameFragment : BaseFragment<FragmentGameBinding>() {
 
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
-
-        viewModel.fetchFavGameList()
-        viewModel.favGameListLiveData.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                is Resource.Loading -> viewModel.showProgress()
-                is Resource.Success -> configureRecyclerView(response.data)
-                is Resource.Error -> configureRecyclerView(listOf())
-            }
-        })
+        viewModel.favoriteGames.observe(viewLifecycleOwner, { configureRecyclerView(it) })
     }
 
     private fun configureRecyclerView(favGameList: List<Game>) {
-        viewModel.hideProgress()
         gamesAdapter = GamesAdapter(
             favGameList,
             { game ->
@@ -69,7 +59,7 @@ class GameFragment : BaseFragment<FragmentGameBinding>() {
         }
 
         lifecycleScope.launch {
-            viewModel.fetchGamesPaginated().collectLatest { pagingData ->
+            viewModel.paginatedGames.collectLatest { pagingData ->
                 gamesAdapter.submitData(pagingData)
             }
         }
