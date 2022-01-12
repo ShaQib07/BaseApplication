@@ -15,13 +15,13 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     fetchGameListUseCase: FetchGameListUseCase,
-    fetchFavGameListUseCase: FetchFavGameListUseCase,
+    private val fetchFavGameListUseCase: FetchFavGameListUseCase,
     private val gameDao: GameDao
 ) : BaseViewModel() {
 
     val paginatedGames = fetchGameListUseCase.fetchGamesPaginated().cachedIn(viewModelScope)
 
-    val favoriteGames = fetchFavGameListUseCase.fetchFavGameList().asLiveData()
+    fun fetchFavoriteGames() = fetchFavGameListUseCase.fetchFavGameList().asLiveData()
 
     fun addToFavorite(game: Game?) = viewModelScope.launch { game?.let { gameDao.insertGame(it) } }
 

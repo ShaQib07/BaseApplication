@@ -9,11 +9,11 @@ import com.shakib.baseapplication.data.model.Game
 import com.shakib.baseapplication.databinding.ItemGameBinding
 
 class GameAdapter(
-    private val gameList: List<Game>,
-    private val favGameList: List<Game>,
     private val clickListener: (Game?) -> Unit,
-    private val favoriteListener: (Game?, isFavorite: Boolean) -> Unit
+    private val favoriteListener: (Game?, size: Int) -> Unit
 ) : RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
+
+    private val favGameList: ArrayList<Game> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GameViewHolder(
         ItemGameBinding.inflate(
@@ -24,32 +24,29 @@ class GameAdapter(
     )
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        holder.binding.ivGame.loadImageFromUrl(gameList[position].backgroundImage)
-        holder.binding.tvName.text = gameList[position].name
+        holder.binding.ivGame.loadImageFromUrl(favGameList[position].backgroundImage)
+        holder.binding.tvName.text = favGameList[position].name
         holder.binding.ivFav.apply {
-            tag = if (favGameList.contains(gameList[position])) {
-                setImageResource(R.drawable.ic_fav_active)
-                "active"
-            } else {
-                setImageResource(R.drawable.ic_fav_inactive)
-                "inactive"
-            }
-            setOnClickListener {
-                tag = if (this.tag.equals("inactive")) {
-                    setImageResource(R.drawable.ic_fav_active)
-                    favoriteListener.invoke(gameList[position], true)
-                    "active"
-                } else {
-                    setImageResource(R.drawable.ic_fav_inactive)
-                    favoriteListener.invoke(gameList[position], false)
-                    "inactive"
-                }
-            }
+            setImageResource(R.drawable.ic_fav_active)
+            setOnClickListener { removeFromFavorite(position) }
         }
-        holder.itemView.setOnClickListener { clickListener.invoke(gameList[position]) }
+        holder.itemView.setOnClickListener { clickListener.invoke(favGameList[position]) }
     }
 
-    override fun getItemCount() = gameList.size
+    private fun removeFromFavorite(position: Int) {
+        favoriteListener.invoke(favGameList[position], favGameList.size-1)
+        favGameList.remove(favGameList[position])
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, favGameList.size)
+    }
+
+    override fun getItemCount() = favGameList.size
+
+    fun submitList(favGameList: List<Game>) {
+        this.favGameList.clear()
+        this.favGameList.addAll(favGameList)
+        notifyDataSetChanged()
+    }
 
     class GameViewHolder(val binding: ItemGameBinding) :
         RecyclerView.ViewHolder(binding.root)

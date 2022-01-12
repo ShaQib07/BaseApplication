@@ -6,14 +6,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shakib.baseapplication.common.base.BaseFragment
-import com.shakib.baseapplication.data.model.Game
 import com.shakib.baseapplication.databinding.FragmentGameBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@InternalCoroutinesApi
 @AndroidEntryPoint
 class GameFragment : BaseFragment<FragmentGameBinding>() {
 
@@ -29,12 +31,11 @@ class GameFragment : BaseFragment<FragmentGameBinding>() {
 
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
-        viewModel.favoriteGames.observe(viewLifecycleOwner, { configureRecyclerView(it) })
+        configureRecyclerView()
     }
 
-    private fun configureRecyclerView(favGameList: List<Game>) {
+    private fun configureRecyclerView() {
         gamesAdapter = GamesAdapter(
-            favGameList,
             { game ->
                 screenNavigator.toDetailFragment(
                     findNavController(),
@@ -56,6 +57,12 @@ class GameFragment : BaseFragment<FragmentGameBinding>() {
                 header = LoadingAdapter { gamesAdapter.retry() },
                 footer = LoadingAdapter { gamesAdapter.retry() }
             )
+            gamesAdapter.addLoadStateListener {
+                if (it.refresh is LoadState.Loading)
+                    viewModel.showProgress()
+                else
+                    viewModel.hideProgress()
+            }
         }
 
         lifecycleScope.launch {
@@ -63,5 +70,8 @@ class GameFragment : BaseFragment<FragmentGameBinding>() {
                 gamesAdapter.submitData(pagingData)
             }
         }
+
+        viewModel.fetchFavoriteGames()
+            .observe(viewLifecycleOwner, { gamesAdapter.submitFavList(it) })
     }
 }

@@ -3,6 +3,7 @@ package com.shakib.baseapplication.presentation.screens.details
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.shakib.baseapplication.common.base.BaseViewModel
+import com.shakib.baseapplication.common.extensions.printErrorLog
 import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.data.model.Game
 import com.shakib.baseapplication.data.model.ScreenShot
@@ -19,20 +20,20 @@ class DetailViewModel @Inject constructor(
 ): BaseViewModel() {
 
     val gameDetailsLiveData by lazy { MutableLiveData<Resource<Game>>() }
-    val gameScreenShotsLiveData by lazy { MutableLiveData<Resource<List<ScreenShot>>>() }
+    val gameScreenShotsLiveData by lazy { MutableLiveData<List<ScreenShot>>() }
 
     fun fetchGameDetails(gameId: Int) {
         viewModelScope.launch {
-            gameScreenShotsLiveData.value = Resource.Loading()
-            fetchGameDetailsUseCase.fetchGameScreenShots(gameId)
-                .catch { gameScreenShotsLiveData.value = Resource.Error(it) }
-                .collect { gameScreenShotsLiveData.value = Resource.Success(it.results) }
+            fetchGameDetailsUseCase.apply {
+                gameDetailsLiveData.value = Resource.Loading()
+                fetchGameDetails(gameId)
+                    .catch { gameDetailsLiveData.value = Resource.Error(it) }
+                    .collect { gameDetailsLiveData.value = Resource.Success(it) }
 
-            gameDetailsLiveData.value = Resource.Loading()
-            fetchGameDetailsUseCase.fetchGameDetails(gameId)
-                .catch { gameDetailsLiveData.value = Resource.Error(it) }
-                .collect { gameDetailsLiveData.value = Resource.Success(it) }
-
+                fetchGameScreenShots(gameId)
+                    .catch { printErrorLog(it.message.toString()) }
+                    .collect { gameScreenShotsLiveData.value = it.results }
+            }
         }
     }
 

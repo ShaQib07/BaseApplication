@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.shakib.baseapplication.common.base.BaseFragment
+import com.shakib.baseapplication.common.extensions.invisible
 import com.shakib.baseapplication.common.extensions.showLongToast
 import com.shakib.baseapplication.common.extensions.visible
-import com.shakib.baseapplication.common.utils.Resource
-import com.shakib.baseapplication.data.model.Game
 import com.shakib.baseapplication.databinding.FragmentFavoriteBinding
 import com.shakib.baseapplication.presentation.screens.game.GameAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     private val viewModel: FavoriteViewModel by viewModels()
+    private lateinit var gameAdapter: GameAdapter
 
     override fun getBaseViewModel() = viewModel
 
@@ -28,27 +28,27 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     override fun configureViews(savedInstanceState: Bundle?) {
         super.configureViews(savedInstanceState)
-        viewModel.favoriteGames.observe(viewLifecycleOwner, { configureRecyclerView(it) })
+        configureRecyclerView()
     }
 
-    private fun configureRecyclerView(games: List<Game>) {
-        viewModel.hideProgress()
-        if (games.isNullOrEmpty())
-            binding.tvEmpty.visible()
-        else
-            binding.rvFavGames.apply {
-                visible()
-                layoutManager = GridLayoutManager(context, 2)
-                adapter = GameAdapter(
-                    games,
-                    games,
-                    { game -> context.showLongToast(game?.name.toString()) },
-                    { game, isFavorite ->
-                        if (isFavorite)
-                            viewModel.addToFavorite(game)
-                        else
-                            viewModel.removeFromFavorite(game)
-                    })
+    private fun configureRecyclerView() {
+        gameAdapter = GameAdapter(
+            { game -> context?.showLongToast(game?.name.toString()) },
+            { game, size ->
+                viewModel.removeFromFavorite(game)
+                if (size == 0) binding.tvEmpty.visible()
+            })
+        binding.rvFavGames.apply {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = gameAdapter
+        }
+        viewModel.fetchFavoriteGames().observe(viewLifecycleOwner, {
+            if (it.isNullOrEmpty())
+                binding.tvEmpty.visible()
+            else {
+                binding.tvEmpty.invisible()
+                gameAdapter.submitList(it)
             }
+        })
     }
 }

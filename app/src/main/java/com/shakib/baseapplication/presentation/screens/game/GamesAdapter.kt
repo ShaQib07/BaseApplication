@@ -11,10 +11,11 @@ import com.shakib.baseapplication.data.model.Game
 import com.shakib.baseapplication.databinding.ItemGameBinding
 
 class GamesAdapter(
-    private val favGameList: List<Game>,
     private val clickListener: (Game?) -> Unit,
     private val favoriteListener: (Game?, isFavorite: Boolean) -> Unit
 ) : PagingDataAdapter<Game, GamesAdapter.GamesViewHolder>(DiffUtilCallBack()) {
+
+    private val favGameList: ArrayList<Game> = ArrayList()
 
     override fun onBindViewHolder(holder: GamesViewHolder, position: Int) {
         getItem(position)?.let { game ->
@@ -51,6 +52,12 @@ class GamesAdapter(
             false
         )
     )
+
+    fun submitFavList(favGameList: List<Game>) {
+        this.favGameList.clear()
+        this.favGameList.addAll(favGameList)
+        notifyDataSetChanged()
+    }
 
     class GamesViewHolder(val binding: ItemGameBinding) :
         RecyclerView.ViewHolder(binding.root)
