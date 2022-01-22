@@ -11,8 +11,6 @@ interface GameApi {
 
     @GET("games")
     suspend fun getGamesPageByPage(
-        @Query("dates") date: String,
-        @Query("ordering") order: String,
         @Query("page") page: Int,
         @Query("page_size") pageSize: Int
     ): GameResponse

@@ -10,10 +10,10 @@ import com.shakib.baseapplication.data.model.PageKey
 interface PageDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertAllPageKeys(pageKeyKey: List<PageKey>)
+    suspend fun insertPageKey(pageKey: PageKey)
 
-    @Query("SELECT * FROM pagekey WHERE `key` = :key")
-    suspend fun fetchPageKey(key: Int): PageKey?
+    @Query("SELECT * FROM pagekey")
+    suspend fun fetchPageKey(): List<PageKey>
 
     @Query("DELETE FROM pagekey")
     suspend fun clearPageKeys()

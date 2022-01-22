@@ -16,7 +16,7 @@ class GamePagingSource(private val gameApi: GameApi) : PagingSource<Int, Game>()
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Game> {
         val key = params.key ?: STARTING_INDEX
         return try {
-            val response = gameApi.getGamesPageByPage("2020-01-01,2020-12-31", "-added", key, params.loadSize)
+            val response = gameApi.getGamesPageByPage(key, params.loadSize)
             val gameList = response.results
             printInfoLog("Call no $key | List size ${gameList.size}")
             val nextKey = if (gameList.isEmpty()) {

@@ -24,7 +24,7 @@ class GameListRepo @Inject constructor(
     private val pageDao: PageDao
 ) {
     suspend fun fetchGameList(): Flow<GameResponse> =
-        flow { emit(gameApi.getGamesPageByPage("2020-01-01,2020-12-31", "-added", STARTING_INDEX, NETWORK_PAGE_SIZE)) }
+        flow { emit(gameApi.getGamesPageByPage(STARTING_INDEX, NETWORK_PAGE_SIZE)) }
 
     // Uses paging source
     fun fetchGamesPaginated(): Flow<PagingData<Game>> = Pager(
@@ -38,7 +38,7 @@ class GameListRepo @Inject constructor(
     /*fun fetchGamesPaginated(): Flow<PagingData<Game>> = Pager(
         PagingConfig(
             pageSize = NETWORK_PAGE_SIZE,
-            enablePlaceholders = false
+            enablePlaceholders = true
         ),
         remoteMediator = GameRemoteMediator(gameApi, gameDao, pageDao),
         pagingSourceFactory = { gameDao.fetchGameList() }
