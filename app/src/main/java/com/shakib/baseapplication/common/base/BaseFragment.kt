@@ -51,8 +51,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     }
 
     open fun init(savedInstanceState: Bundle?) {
-        bindWithViewModel()
         configureViews(savedInstanceState)
+        bindWithViewModel()
     }
 
     open fun configureViews(savedInstanceState: Bundle?) {}

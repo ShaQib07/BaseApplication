@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.shakib.baseapplication.common.base.BaseFragment
-import com.shakib.baseapplication.common.extensions.invisible
-import com.shakib.baseapplication.common.extensions.showLongToast
-import com.shakib.baseapplication.common.extensions.visible
+import com.shakib.baseapplication.common.extensions.*
+import com.shakib.baseapplication.common.utils.Resource
 import com.shakib.baseapplication.databinding.FragmentFavoriteBinding
 import com.shakib.baseapplication.presentation.screens.game.GameAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
@@ -42,13 +46,34 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
             layoutManager = GridLayoutManager(context, 2)
             adapter = gameAdapter
         }
-        viewModel.fetchFavoriteGames().observe(viewLifecycleOwner, {
-            if (it.isNullOrEmpty())
-                binding.tvEmpty.visible()
-            else {
-                binding.tvEmpty.invisible()
-                gameAdapter.submitList(it)
+    }
+
+    override fun bindWithViewModel() {
+        super.bindWithViewModel()
+        viewModel.fetchFavoriteGames()
+        lifecycleScope.launch {
+            // repeatOnLifecycle launches the block in a new coroutine every time the
+            // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // Trigger the flow and start listening for values.
+                // Note that this happens when lifecycle is STARTED and stops
+                // collecting when the lifecycle is STOPPED
+                viewModel.favGamesStateFlow.collect {
+                    // New value received
+                    when (it) {
+                        is Resource.Loading -> printDebugLog("Show Loading")
+                        is Resource.Success -> {
+                            if (it.data.isNullOrEmpty())
+                                binding.tvEmpty.visible()
+                            else {
+                                binding.tvEmpty.invisible()
+                                gameAdapter.submitList(it.data)
+                            }
+                        }
+                        is Resource.Error -> printErrorLog(it.throwable.message.toString())
+                    }
+                }
             }
-        })
+        }
     }
 }
