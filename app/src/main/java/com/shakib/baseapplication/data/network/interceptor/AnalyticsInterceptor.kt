@@ -13,6 +13,7 @@ class AnalyticsInterceptor @Inject constructor(@ApplicationContext private val c
     private val osVersion = "X-Device-OS-Version"
     private val deviceModel = "X-Device-Model"
     private val devicePlatform = "X-Device-Platform"
+    private val devicePlatformValue = "android"
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -25,7 +26,7 @@ class AnalyticsInterceptor @Inject constructor(@ApplicationContext private val c
             .addHeader(appVersion, version)
             .addHeader(osVersion, Build.VERSION.SDK_INT.toString())
             .addHeader(deviceModel, Build.MODEL)
-            .addHeader(devicePlatform, "android")
+            .addHeader(devicePlatform, devicePlatformValue)
 
         return chain.proceed(requestBuilder.build())
     }
